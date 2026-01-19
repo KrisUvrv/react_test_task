@@ -129,6 +129,13 @@ const handleButtonClick = (value, type) => {
 
     let last = state.inputs[state.inputs.length - 1];
 
+    if (last && last === String(state.result)) {
+      state.inputs = [value];
+      state.result = null;
+      renderDisplay();
+      return;
+    }
+
     if (!state.inputs.length) {
       state.inputs.push(value);
     } else if (!isOperator(last)) {
@@ -193,8 +200,13 @@ const handleButtonClick = (value, type) => {
 
   else if (type === 'fraction') {
     if (state.justCalculated && state.result !== 'error') {
-      state.inputs = [String(state.result) + '.'];
       state.justCalculated = false;
+
+      if (String(state.result).includes('.')) {
+        state.inputs = [String(state.result)];
+      } else {
+        state.inputs = [String(state.result) + '.'];
+      }
       renderDisplay();
       return;
     }
@@ -204,19 +216,17 @@ const handleButtonClick = (value, type) => {
       state.justCalculated = false;
       renderDisplay();
       return;
-    } else if (state.inputs.length === 0) {
-      state.inputs.push('0.')
-    } else {
-      if (isOperator(last)) {
-        state.inputs.push('0.')
-      } else {
-        if (state.inputs[state.inputs.length - 1].includes('.')) {
-          return;
-        } else {
-          state.inputs[state.inputs.length - 1] += value;
-        }
-      }
     }
+
+    if (!state.inputs.length || isOperator(last)) {
+      state.inputs.push('0.');
+    } else if (last.includes('.')) {
+      return;
+    } else {
+      state.inputs[state.inputs.length - 1] += '.';
+    }
+
+    renderDisplay();
 
   } else if (type === 'sign') {
 
