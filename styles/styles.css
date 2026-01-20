@@ -26,11 +26,13 @@ body {
 }
 
 .display {
+    height: 176px;
+    width: 280px;
     padding: 90px 0 0 10px;
     color: #FFFFFF;
     display: flex;
     flex-direction: column;
-    /*overflow: hidden;*/
+    justify-content: end;
     align-items: end;
     gap: 10px;
     white-space: nowrap;

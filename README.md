@@ -30,13 +30,10 @@ Prevents invalid input:
 - Cannot divide by zero → displays error
 - Cannot input multiple leading zeros (00)
 - After = you can continue inputting numbers or decimals
-- After an error, inputting a number or decimal starts a new calculation
+- After an error,  a new input can be started using a number, a decimal point, or AC.
+  Other actions (operators, sign change, delete) are disabled in this state.
 
-🔧 To Improve:
-- Implement % (percent) button: currently, the percent button is inactive
-- Improve display handling: consider dynamically scaling font size or wrapping text for very large numbers
-- Refactoring
-- Tests
++ The main display uses adaptive font sizing based on the current input or result length to ensure proper visibility.
 
 🛠 Technologies Used
 - HTML

@@ -93,11 +93,29 @@ const calculate = (inputs) => {
 const currentDisplay = document.querySelector('.display-current');
 const historyDisplay = document.querySelector('.display-history');
 
+const getInputLength = () => {
+  return state.inputs.join('').length;
+}
+const changeFontSize = () => {
+
+  const length = getInputLength();
+  currentDisplay.style.fontSize = '56px';
+
+  if (length > 14) {
+    currentDisplay.style.fontSize = '22px';
+  } else if (length > 10) {
+    currentDisplay.style.fontSize = '28px';
+  } else if (length > 7) {
+    currentDisplay.style.fontSize = '36px';
+  }
+}
+
 const renderDisplay = () => {
 
   if (!state.inputs.length && !state.justCalculated) {
     currentDisplay.innerHTML = '0';
     historyDisplay.innerHTML = '';
+    changeFontSize();
     return;
   }
 
@@ -108,7 +126,9 @@ const renderDisplay = () => {
     currentDisplay.innerHTML = state.inputs.join('');
     historyDisplay.innerHTML = '';
   }
+  changeFontSize();
 }
+
 
 const isOperator = (value) => {
   return OPERATORS.some((op) => op.symbol === value);
@@ -149,6 +169,7 @@ const handleButtonClick = (value, type) => {
       state.inputs.push(value);
     }
   } else if (type === 'operator') {
+    if (state.result === 'error') return;
     if (state.justCalculated) {
       state.inputs = [String(state.result)];
       state.justCalculated = false;
@@ -172,7 +193,7 @@ const handleButtonClick = (value, type) => {
     state.result = calculate(state.inputs);
     state.justCalculated = true;
   } else if (type === 'delete') {
-
+    if (state.result === 'error') return;
     if (state.justCalculated) {
       state.inputs = [String(state.result)];
       state.justCalculated = false;
@@ -192,6 +213,7 @@ const handleButtonClick = (value, type) => {
     }
 
   } else if (type === 'clear') {
+
     state.inputs = [];
     state.justCalculated = false;
     state.result = null;
@@ -279,6 +301,7 @@ document.addEventListener('keydown', (e) => {
     handleButtonClick(mapped.value, mapped.type);
   }
 });
+
 
 
 
